@@ -1,29 +1,52 @@
 package uno;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import uno.util.Card;
 
-public class Player{
+public class Player {
     private String name;
+    private List<Card> hand;
+    private Game game;
+    
+    public Player(String name, List<Card> hand, Game game){
+        this.name = name;
+        this.hand = hand;
+        this.game = game;
+    }
+
+    public void addToHand(List<Card> cards) {
+        hand.addAll(cards);
+    }
+
+    public void removeFromHand(int cardIdx){
+        hand.remove(cardIdx);
+    }
+
     public String getName(){
         return name;
     }
-    private ArrayList<Card> hand;
-    public ArrayList<Card> getHand(){
-        return hand;
-    }
-    private Game game;
-    public Player(ArrayList<Card> hand){
-        this.hand = hand;
-    }
-    public void addToHand(ArrayList<Card> hand){
 
+    public List<Card> getHand(){
+        return new ArrayList<>(hand);
     }
-    public void removeFromHand(int cardIdx){
 
-    }
     @Override
     public String toString(){
-        return "0";
+        StringBuilder sb = new StringBuilder();
+        int idx = 1;
+        sb.append("Player %s: ".formatted(name));
+        for (Card card : hand) {
+            sb.append(idx);
+            if (card.isPlayableOver(game.currentCard)) {
+                sb.append("*");
+            }
+            sb.append("=");
+            sb.append(card);
+            sb.append(" ");
+            ++idx;
+        }
+        return sb.toString();
     }
 }
